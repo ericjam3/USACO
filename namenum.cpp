@@ -25,24 +25,29 @@ dictionary itself is given in alphabetical order and is no more than 5000 words.
 
 using namespace std;
 
-
-
-
 int main(){
+	// Reading in digits from namenum.in
 	ifstream in("namenum.in");
 	string digits;
 	in >> digits;
 	int size = digits.size();
+
+	// Setting up the dictionary
 	vector<string> dictionary;
 	ifstream dic("dict.txt");
 	string name;
-	ofstream out("namenum.out");
 	while (dic >> name){
 		if (size == name.size()){
 			dictionary.push_back(name);
-		}
-	}
+		} // if
+	} // while
+
+	// setting up the output file
+	ofstream out("namenum.out");
 	int count = 0, val;
+
+	// Goes through each word in the dictionary letter by letter checking
+	// to see if it can be converted into the given digits
 	for (unsigned i = 0; i < dictionary.size(); ++i){
 		for (int j = 0; j < size; ++j){
 			val = dictionary[i][j] - 65;
@@ -52,16 +57,18 @@ int main(){
 			}else if (j == size - 1){
 				out << dictionary[i] << endl;
 				++count;
-			}
-		}
-	}
+			} // if
+		} // for
+	} // for
+
+	// If no words were valid, print "NONE" in text file
 	if (count == 0){
 		out << "NONE" << endl;
-	}
+	} // if
 
 	dic.close();
 	in.close();
 	out.close();
 
 	return 0;
-}
+} // main
