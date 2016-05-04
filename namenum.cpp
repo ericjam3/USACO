@@ -4,12 +4,24 @@ LANG: C++
 TASK: namenum
 */
 
+// READ //
+/*
+This program reads a number between 1 and 12 digits long from a text file named
+"namenum.in" and also a dictionary text file containing viable names. The dictionary
+will be named "dict.txt". The digits must be between 2 and 9. The digits are converted
+to the letter that they correspond to on a numpad like those seen on flip phones, it
+is important to not that the letters Q and Z are not included and each digit accounts
+for three letters. The end goal is to find all valid names from the dictionary made out
+of the given digits and outputting them in ascending alphabetical order. Note that the
+dictionary itself is given in alphabetical order and is no more than 5000 words. 
+*/
+
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <cmath>
 #include <vector>
-#include <ctime>
 
 using namespace std;
 
