@@ -32,7 +32,7 @@ int main(){
 
 	sort(gaps.begin(), gaps.end());
 
-	int total = stalls - last - first - 1;
+	int total = stalls - (stalls - last) - first + 1;
 	unsigned min = boards - 1;
 	if (gaps.size() < min){
 		min = gaps.size();
@@ -41,7 +41,8 @@ int main(){
 	for (unsigned i = 0; i < min; ++i){
 		total -= gaps[gaps.size() - i - 1];
 	}
-	cout << total << endl;
+	
+	out << total << endl;
 
 
 	in.close();
