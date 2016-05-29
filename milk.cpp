@@ -57,6 +57,10 @@ int main(){
 	// sorting the vector of buying options in terms of unit cost
 	sort(data.begin(), data.end(), comp);
 	
+	// loop through the vector of buying options starting with the cheapest
+	// milk per unit, adding to the total minimum cost. Stop once we no longer
+	// have to buy the full amount of milk from the next farmer and buy the
+	// fraction that we need, adding the cost of the milk we have bought
 	while (total_milk < milk_needed){
 		if (data[ind].amount + total_milk <= milk_needed){
 			total_cost += data[ind].amount * data[ind].cost;
