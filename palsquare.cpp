@@ -4,6 +4,13 @@ LANG: C++
 TASK: palsquare
 */
 
+/*
+This program will take a number in represented in base 10 and
+find all the values from 1 to 300 whose squares are palindromic when
+represented in the base of the number read in. Each number, along with
+its square will then be printed out in the specified base.
+*/
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -15,10 +22,50 @@ TASK: palsquare
 
 using namespace std;
 
+// This function is used to represent digits larger than 9 as letters
+void extra_digits(vector<string> & palind, int temp){
+	switch (temp){
+		case 10:
+			palind.push_back("A");
+			break;
+		case 11:
+			palind.push_back("B");
+			break;
+		case 12:
+			palind.push_back("C");
+			break;
+		case 13:
+			palind.push_back("D");
+			break;
+		case 14:
+			palind.push_back("E");
+			break;
+		case 15:
+			palind.push_back("F");
+			break;
+		case 16:
+			palind.push_back("G");
+			break;
+		case 17:
+			palind.push_back("H");
+			break;
+		case 18:
+			palind.push_back("I");
+			break;
+		default:
+			palind.push_back("J");
+			break;
+	}
+}
+
 int main(){
 	ifstream in("palsquare.in");
 	int base, start, begin;
+	// read in the specified base
 	in >> base;
+
+	// This switch is simply used to make a starting point when converting
+	// numbers from base 10 to the specified base
 	switch (base){
 		case 2: 
 			start = 16;
@@ -61,38 +108,7 @@ int main(){
 			if (pow(base, k) <= num){
 				temp = num / pow(base, k);
 				if (temp >= 10){
-					switch (temp){
-						case 10:
-							palind.push_back("A");
-							break;
-						case 11:
-							palind.push_back("B");
-							break;
-						case 12:
-							palind.push_back("C");
-							break;
-						case 13:
-							palind.push_back("D");
-							break;
-						case 14:
-							palind.push_back("E");
-							break;
-						case 15:
-							palind.push_back("F");
-							break;
-						case 16:
-							palind.push_back("G");
-							break;
-						case 17:
-							palind.push_back("H");
-							break;
-						case 18:
-							palind.push_back("I");
-							break;
-						default:
-							palind.push_back("J");
-							break;
-					}
+					extra_digits(palind, temp);
 				}else{
 					stringstream ss;
 					ss << temp;
@@ -123,38 +139,7 @@ int main(){
 				if (pow(base, k) <= num2){
 					temp2 = num2 / pow(base, k);
 					if (temp2 >= 10){
-						switch (temp2){
-							case 10:
-								pal.push_back("A");
-								break;
-							case 11:
-								pal.push_back("B");
-								break;
-							case 12:
-								pal.push_back("C");
-								break;
-							case 13:
-								pal.push_back("D");
-								break;
-							case 14:
-								pal.push_back("E");
-								break;
-							case 15:
-								pal.push_back("F");
-								break;
-							case 16:
-								pal.push_back("G");
-								break;
-							case 17:
-								pal.push_back("H");
-								break;
-							case 18:
-								pal.push_back("I");
-								break;
-							default:
-								pal.push_back("J");
-								break;
-						}
+						extra_digits(pal, temp2);
 					}else{
 						stringstream ss;
 						ss << temp2;
