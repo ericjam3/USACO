@@ -1,3 +1,9 @@
+/*
+ID: ericm101
+LANG: C++
+TASK: crypt1
+*/
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -70,7 +76,7 @@ int main() {
 
 	in.close();
 
-	system("Pause");
+	//system("Pause");
 	return 0;
 }
 
@@ -84,7 +90,7 @@ void Crypt1::run_this_bad_boy() {
 	total = 0;
 	first_digit();
 	ofstream out("crypt1.out");
-	out << total;
+	out << total << "\n";
 	out.close();
 }
 
@@ -156,11 +162,6 @@ void Crypt1::fifth_digit() {
 		    && candidates[sum1 % 10] && candidates[sum2 % 10]
 			&& num3 < 10 && candidates[sum3]) {
 			++total;
-
-			for (unsigned i = 0; i < current.size(); ++i) {
-				cout << current[i] << " ";
-			}
-			cout << digits[i] << endl;
 		}else{
 			continue;
 		}
