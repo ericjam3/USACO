@@ -32,11 +32,25 @@ public:
 	// Initializes both candidates and digits vectors
 	Crypt1(vector<int> & vec, vector<bool> & cand);
 
+	void run_this_bad_boy();
 
+	void first_digit();
+
+	void second_digit();
+
+	void third_digit();
+
+	void fourth_digit();
+
+	void fifth_digit();
 
 private:
 	vector<int> digits;
 	vector<bool> candidates;
+	vector<int> first_sums;
+	vector<int> current;
+	int total;
+	int carry_over;
 };
 
 int main() {
@@ -52,9 +66,10 @@ int main() {
 
 	Crypt1 obj(digits, candidates);
 
-	
+	obj.run_this_bad_boy();
+
 	in.close();
-	
+
 	system("Pause");
 	return 0;
 }
@@ -62,4 +77,92 @@ int main() {
 Crypt1::Crypt1(vector<int> & vec, vector<bool> & cand) {
 	digits = vec;
 	candidates = cand;
+}
+
+void Crypt1::run_this_bad_boy() {
+	first_sums.resize(4);
+	total = 0;
+	first_digit();
+	ofstream out("crypt1.out");
+	out << total;
+	out.close();
+}
+
+void Crypt1::first_digit() {
+	for (unsigned i = 0; i < digits.size(); ++i) {
+		current.push_back(digits[i]);
+		second_digit();
+		current.pop_back();
+	}
+}
+
+void Crypt1::second_digit() {
+	for (unsigned i = 0; i < digits.size(); ++i) {
+		if (candidates[(digits[i] * current.front()) % 10]) {
+			carry_over = (digits[i] * current.front()) / 10;
+			current.push_back(digits[i]);
+			third_digit();
+			current.pop_back();
+		}else{
+			continue;
+		}
+	}
+}
+
+void Crypt1::third_digit() {
+	const int temp = carry_over;
+	for (unsigned i = 0; i < digits.size(); ++i) {
+		carry_over = temp;
+		int num = (digits[i] * current.front()) + carry_over;
+		if (candidates[num % 10]) {
+			carry_over = num / 10;
+			current.push_back(digits[i]);
+			first_sums[1] = num % 10;
+			fourth_digit();
+			current.pop_back();
+		}else{
+			continue;
+		}
+	}
+}
+
+void Crypt1::fourth_digit() {
+	const int temp = carry_over;
+	for (unsigned i = 0; i < digits.size(); ++i) {
+		carry_over = temp;
+		int num = (digits[i] * current.front()) + carry_over;
+		if (num < 10 && candidates[num]) {
+			carry_over = num / 10;
+			current.push_back(digits[i]);
+			first_sums[2] = num % 10;
+			fifth_digit();
+			current.pop_back();
+		}else {
+			continue;
+		}
+	}
+}
+
+void Crypt1::fifth_digit() {
+	for (unsigned i = 0; i < digits.size(); ++i) {
+		int num1 = digits[i] * current[1];
+		int num2 = digits[i] * current[2] + (num1 / 10);
+		int num3 = digits[i] * current[3] + (num2 / 10);
+		int sum1 = (num1 % 10) + first_sums[1];
+		int sum2 = (num2 % 10) + first_sums[2] + (sum1 / 10);
+		int sum3 = (num3 % 10) + (sum2 / 10);
+
+		if (candidates[num1 % 10] && candidates[num2 % 10] && candidates[num3 % 10]
+		    && candidates[sum1 % 10] && candidates[sum2 % 10]
+			&& num3 < 10 && candidates[sum3]) {
+			++total;
+
+			for (unsigned i = 0; i < current.size(); ++i) {
+				cout << current[i] << " ";
+			}
+			cout << digits[i] << endl;
+		}else{
+			continue;
+		}
+	}
 }
