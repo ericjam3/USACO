@@ -38,28 +38,65 @@ public:
 	// Initializes both candidates and digits vectors
 	Crypt1(vector<int> & vec, vector<bool> & cand);
 
+	// This function runs the whole process of finding the total
+	// amount of acceptable ways for the cryptarithm to work
 	void run_this_bad_boy();
 
+	// Runs through all possibilites for the bottom right number
+	// in the cryptarithm
+	//  abc
+	// x de
+	// letter e in the above example
 	void first_digit();
 
+	// Runs through all possibilites for the top right number
+	// in the cryptarithm and checks to see if they result in 
+	// a possible solution, if not, the algorithm goes no further
+	// with that digit in this location
+	//  abc
+	// x de
+	// letter c in the above example
 	void second_digit();
 
+	// Runs through all possibilites for the top middle number
+	// in the cryptarithm and checks to see if they result in 
+	// a possible solution, if not, the algorithm goes no further
+	// with that digit in this location
+	//  abc
+	// x de
+	// letter b in the above example
 	void third_digit();
 
+	// Runs through all possibilites for the top left number
+	// in the cryptarithm and checks to see if they result in 
+	// a possible solution, if not, the algorithm goes no further
+	// with that digit in this location
+	//  abc
+	// x de
+	// letter a in the above example
 	void fourth_digit();
 
+	// Runs through all possibilites for the bottom left number
+	// in the cryptarithm and checks to see if they result in 
+	// a possible solution, if not, the algorithm goes no further
+	// with that digit in this location. If the digit does work,
+	// the total amount of solutions is incremented by 1
+	//  abc
+	// x de
+	// letter d in the above example
 	void fifth_digit();
 
 private:
-	vector<int> digits;
-	vector<bool> candidates;
-	vector<int> first_sums;
-	vector<int> current;
-	int total;
-	int carry_over;
+	vector<int> digits;				 // vector of allowed digits
+	vector<bool> candidates;		 // vector that is true for allowed digits
+	vector<int> first_sums;		     // partial sums from the first pass
+	vector<int> current;			 // contains digits currently included
+	int total;						 // total amount of solutions
+	int carry_over;					 // used when there is a carry over during multiplication
 };
 
 int main() {
+	// reading in digits, setting up problem
 	ifstream in("crypt1.in");
 	int num_digits, digit;
 	in >> num_digits;
@@ -70,16 +107,18 @@ int main() {
 		digits.push_back(digit);
 	}
 
+	// creating object
 	Crypt1 obj(digits, candidates);
 
+	// runs the algorithm
 	obj.run_this_bad_boy();
 
 	in.close();
 
-	//system("Pause");
 	return 0;
 }
 
+// constructor
 Crypt1::Crypt1(vector<int> & vec, vector<bool> & cand) {
 	digits = vec;
 	candidates = cand;
