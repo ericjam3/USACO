@@ -67,7 +67,7 @@ void Combo::run_algorithm() {
 	else {
 		out << 250 - big_lock() << "\n";
 	}
-	
+
 	out.close();
 }
 
@@ -75,7 +75,9 @@ int Combo::big_lock() {
 	int factor = 1;
 	bool overlap = false;
 	for (int i = 0; i < 3; ++i) {
-		int fmin, fmax, mmin, mmax;
+		int fmin, fmax, mmin, mmax, fact, mact;
+		fact = farmer[i];
+		mact = master[i];
 		fmin = farmer[i] - 2;
 		if (fmin < 1) {
 			fmin = fmin + ticks;
@@ -86,14 +88,22 @@ int Combo::big_lock() {
 			mmin = mmin + ticks;
 		}
 		mmax = master[i] + 2;
-		
-		if (fmax >= mmin) {
+
+		if (abs(fact - mact) <= 4) {
 			overlap = true;
-			factor *= fmax - mmin + 1;
+			factor *= 5 - abs(fact - mact);
 		}
-		else if (mmax >= fmin) {
+		else if (fmax > ticks && fmax % 10 >= mmin) {
+			if (fmax % 10 > mmin) {
+				factor *= 2;
+			}
 			overlap = true;
-			factor *= mmax - fmin + 1;
+		}
+		else if (mmax > ticks && mmax % 10 >= fmin) {
+			if (mmax % 10 > fmin) {
+				factor *= 2;
+			}
+			overlap = true;
 		}
 	}
 	if (overlap) return factor;
