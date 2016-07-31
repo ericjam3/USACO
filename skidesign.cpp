@@ -12,28 +12,16 @@ TASK: skidesign
 
 using namespace std;
 
-struct Dale {
-	int height;
-	int change;
-
-	Dale() { change = 0; }
-};
-
-bool comparator(Dale a, Dale b) {
-	return a.height < b.height;
-}
-
 class Ski {
 public:
 	Ski();
 
 	void run_this_sucker();
 
-	void add_her_up();
-
 private:
-	vector<Dale> hills;
+	vector<int> hills;
 	int num_hills;
+	int min_cost;
 };
 
 
@@ -47,55 +35,45 @@ int main() {
 Ski::Ski() {
 	ifstream in("skidesign.in");
 	int height;
-	Dale hill;
 	in >> num_hills;
 	for (int i = 0; i < num_hills; ++i) {
-		in >> hill.height;
-		hills.push_back(hill);
+		in >> height;
+		hills.push_back(height);
 	}
-	sort(hills.begin(), hills.end(), comparator);
+	sort(hills.begin(), hills.end());
 	in.close();
+	min_cost = 0;
+	for (int i = 0; i < num_hills; ++i) {
+		if (hills[i] < 42) {
+			min_cost += pow(42 - hills[i], 2);
+		}
+		else if (hills[i] > 59) {
+			min_cost += pow(hills[i] - 59, 2);
+		}
+	}
+	
 }
 
 void Ski::run_this_sucker() {
-	for (unsigned i = 0; i < num_hills / 2; ++i) {
-		if (num_hills % 2) {
-			double diff = hills[(num_hills / 2) + i + 1].height - hills[(num_hills / 2) - i - 1].height;
-			if (diff > 17) {
-				diff -= 17;
-				diff /= 2;
-				hills[(num_hills / 2) + i + 1].height -= ceil(diff);
-				hills[(num_hills / 2) + i + 1].change += ceil(diff);
-				hills[(num_hills / 2) - i - 1].height += floor(diff);
-				hills[(num_hills / 2) - i - 1].change += floor(diff);
-
-				sort(hills.begin(), hills.end(), comparator);
+	for (int i = 0; i <= 100; ++i) {
+		int j = i + 17;
+		int temp_cost = 0;
+		for (int k = 0; k < num_hills; ++k) {
+			if (hills[k] < i) {
+				temp_cost += pow(i - hills[k], 2);
+			}
+			else if (hills[k] > j) {
+				temp_cost += pow(hills[k] - j, 2);
+			}
+			if (temp_cost > min_cost) {
+				break;
 			}
 		}
-		else {
-			double diff = hills[(num_hills / 2) + i].height - hills[(num_hills / 2) - i - 1].height;
-			if (diff > 17) {
-				diff -= 17;
-				diff /= 2;
-				hills[(num_hills / 2) + i].height -= ceil(diff);
-				hills[(num_hills / 2) + i].change += ceil(diff);
-				hills[(num_hills / 2) - i - 1].height += floor(diff);
-				hills[(num_hills / 2) - i - 1].change += floor(diff);
-
-				sort(hills.begin(), hills.end(), comparator);
-			}
+		if (temp_cost < min_cost) {
+			min_cost = temp_cost;
 		}
-	}
-	add_her_up();
-}
-
-void Ski::add_her_up() {
-	int cost = 0;
-	for (int i = 0; i < num_hills; ++i) {
-		cost += pow(hills[i].change, 2);
 	}
 	ofstream out("skidesign.out");
-	out << cost << endl;
+	out << min_cost << endl;
 	out.close();
 }
-
