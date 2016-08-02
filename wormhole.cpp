@@ -46,6 +46,7 @@ int main() {
 	Worm obj;
 	obj.run();
 
+	system("Pause");
 	return 0;
 }
 
@@ -76,7 +77,7 @@ void Worm::run() {
 
 void Worm::pair_up(int num) {
 	if (num < (num_holes / 2) - 1) {
-		int old_ind = current_ind;
+		int old_ind = current_ind, temp_ind;
 		for (int i = old_ind + 1; i < num_holes; ++i) {
 			if (!used[i]) {
 				pairings[i] = old_ind;
@@ -85,13 +86,14 @@ void Worm::pair_up(int num) {
 				for (int j = old_ind + 1; j < num_holes; ++j) {
 					if (!used[j]) {
 						current_ind = j;
+						temp_ind = j;
 						used[current_ind] = true;
 						break;
 					}
 				}
 				pair_up(num + 1);
 				used[i] = false;
-				used[current_ind] = false;
+				used[temp_ind] = false;
 			}
 		}
 	}
