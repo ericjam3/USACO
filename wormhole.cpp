@@ -11,6 +11,21 @@ TASK: wormhole
 
 using namespace std;
 
+/*
+This program is written to solve the wormholes USACO online training problem.
+Farmer John has between 2 and 12 (must be even amount) wormholes in his cow
+pasture, each of which is paired with one other wormhole. Given the positions
+of each of the wormholes, he wants to know how many different pairings could
+result in one of his cows being trapped in an infinite cycle if the cow only
+travels in the +x direction. The first line it takes in from an input file is
+the number of wormholes. Each line after that contains an x and y coordinate
+of a wormhole. This program generates all the possible pairings of wormholes
+and for each pairing traverses the pasture full of wormholes starting at each
+one until it finds an infinite cycle or has exhausted all of the starting points
+without doing so. It adds up the total amount of pairings that would result in
+the cow getting stuck in an infinite cycle and writes it to the output file. 
+*/
+
 // Used to store coordinates of points on the grid
 struct Coords {
 	long long x;
